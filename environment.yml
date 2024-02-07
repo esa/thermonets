@@ -1,0 +1,16 @@
+name: thermonets
+channels:
+  - conda-forge
+dependencies:
+  - c-compiler
+  - cxx-compiler
+  - ninja
+  - cmake >=3.18
+  - heyoka.py
+  - pygmo
+  - pip
+  - matplotlib
+  - jupyter
+  - pykep
+  - pip:
+    - nrlmsise00
