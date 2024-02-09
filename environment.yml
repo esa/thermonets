@@ -12,5 +12,8 @@ dependencies:
   - matplotlib
   - jupyter
   - pykep
+  - astropy
   - pip:
     - nrlmsise00
+    - spaceweather
+    - pyatmos
