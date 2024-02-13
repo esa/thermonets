@@ -1,23 +1,33 @@
 import numpy as np
 import pygmo as pg
+import torch
 
-def rho_approximation(h, params):
+def rho_approximation(h, params,backend='numpy'):
     """Approximates rho via the exponenial formula
 
     Args:
-        h (`np.array`): altitude
-        params (`np.array`): the [alpha, beta,gamma] parameters
+        h (`np.array` or `torch.tensor`): altitude
+        params (`np.array` or `torch.tensor`): the [alpha, beta,gamma] parameters
 
     Returns:
-        `np.array`: the density
-    """
-    n = len(params) // 3
-    alphas = params[0:n]
-    betas = params[n : 2 * n]
-    gammas = params[2 * n : 3 * n]
-    retval = np.zeros(h.shape)
-    for alpha, beta, gamma in zip(alphas, betas, gammas):
-        retval += alpha * np.exp(-(h - gamma) * beta)
+        `np.array` or `torch.tensors`: the density
+    """        
+    if backend == 'numpy':      
+        n = len(params) // 3
+        alphas = params[0:n]
+        betas = params[n : 2 * n]
+        gammas = params[2 * n : 3 * n]
+        retval = np.zeros(h.shape)
+        for alpha, beta, gamma in zip(alphas, betas, gammas):
+            retval += alpha * np.exp(-(h - gamma) * beta)
+    elif backend=='torch':
+        n = params.shape[1] // 3
+        alphas = params[:,0:n]
+        betas = params[:,n : 2 * n]
+        gammas = params[:,2 * n : 3 * n]
+        retval = torch.zeros_like(h)
+        for i in range(n):
+            retval += alphas[:,i] * torch.exp(-(h - gammas[:,i]) * betas[:,i])
     return retval
 
 class global_fit_udp:
