@@ -9,15 +9,25 @@ import time
 import datetime
 import numpy as np
 import spaceweather
+from functools import partial
+import hwm93
 
 #for MacOS users:
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 # USAGE (example):
-## python generate_nrlmsise00_db.py --num_processes 34
+#with wind:
+##  python generate_nrlmsise00_db.py --add_wind --num_processes 1 --n_height_points 100 --n_lonlat_points 100
+#without wind:
+##  python generate_nrlmsise00_db.py --num_processes 1 --n_height_points 10 --n_lonlat_points 10
 
-def compute_density(inputs):
+def compute_density(inputs, add_wind):
     date,  alt, latitude, longitude, f107A, f107, ap = inputs
-    return msise_flat(date, alt, latitude, longitude, f107A, f107, ap)[:,5]*1e3
+    if add_wind:
+        winds = hwm93.run(time=date, altkm=alt,
+                    glat=latitude, glon=longitude, f107a=f107A, f107=f107, ap=ap)
+        return winds.zonal.values, winds.meridional.values, msise_flat(date, alt, latitude, longitude, f107A, f107, ap)[:,5]*1e3
+    else:    
+        return msise_flat(date, alt, latitude, longitude, f107A, f107, ap)[:,5]*1e3
 
 def create_dir(dir_path):
     if os.path.exists(dir_path):
@@ -37,13 +47,13 @@ def main():
     parser.add_argument('--n_lonlat_points', help='Number of points on the sphere', type=int, default = 100)
     parser.add_argument('--min_height', help='Minimum height (km)', type=float, default = 158.48931924611142) # 10**2.2
     parser.add_argument('--max_height', help='Minimum height (km)', type=float, default = 630.957344480193) # 10**2.8
-    parser.add_argument('--n_height_points', help='Number of point to sample the altitude range (logarithmically)', type=float, default = 100)
+    parser.add_argument('--n_height_points', help='Number of point to sample the altitude range (logarithmically)', type=int, default = 100)
     parser.add_argument('--num_processes', help='Number of processes to be spawn', type=int, default = 200)
+    parser.add_argument('--add_wind', help='If true, computes the HWM93 zonal and meridional components of the wind, and stored them in the db', action='store_true')
     opt = parser.parse_args()
     # File name to log console output
     file_name_log = os.path.join('../dbs/nrlmsise00_db.log')
     te = open(file_name_log,'w')  # File where you need to keep the logs
-
     class Unbuffered:
        def __init__(self, stream):
            self.stream = stream
@@ -92,14 +102,18 @@ def main():
                 inputs.append((date,  alts, np.rad2deg(lat), np.rad2deg(lon), f107A, f107, ap))
     print(f'Starting parallel pool with {len(inputs)}:')
     print(f'example element: {inputs[0], inputs[-1]}')
-    p = pool.map(compute_density, inputs)
+    partial_compute_density = partial(compute_density, add_wind=opt.add_wind)
+    p = pool.map(partial_compute_density, inputs)
     print('Done ... writing to file')
     # Save inputs and outputs to a file
     output_file_name = f'../dbs/nrlmsise00_db.txt'  
     with open(output_file_name, 'w') as output_file:    
-        output_file.write(f'day, month, year, hour, minute, second, microsecond, alt [km], lat [deg], lon [deg], f107A, f107, ap, density [kg/m^3]\n')
+        if opt.add_wind:
+            output_file.write(f'day, month, year, hour, minute, second, microsecond, alt [km], lat [deg], lon [deg], f107A, f107, ap, wind zonal [m/s], wind meridional [m/s], density [kg/m^3]\n')
+        else:
+            output_file.write(f'day, month, year, hour, minute, second, microsecond, alt [km], lat [deg], lon [deg], f107A, f107, ap, density [kg/m^3]\n')
         for input_data, result in zip(inputs, p):
-            for density, alt in zip(result, input_data[1]):
+            for idx in range(len(input_data[1])):
                 day = input_data[0].day
                 month = input_data[0].month
                 year = input_data[0].year
@@ -107,7 +121,15 @@ def main():
                 minute = input_data[0].minute
                 second = input_data[0].second
                 microsecond = input_data[0].microsecond
-                output_file.write(f'{day}, {month}, {year}, {hour}, {minute}, {second}, {microsecond}, {alt}, {input_data[2]}, {input_data[3]}, {input_data[4]}, {input_data[5]}, {input_data[6]}, {density}\n')
+                alt = input_data[1][idx]
+                if opt.add_wind:
+                    density = result[-1][idx]
+                    wind_zonal=result[0][idx]
+                    wind_meridional=result[1][idx]
+                    output_file.write(f'{day}, {month}, {year}, {hour}, {minute}, {second}, {microsecond}, {alt}, {input_data[2]}, {input_data[3]}, {input_data[4]}, {input_data[5]}, {input_data[6]}, {wind_zonal}, {wind_meridional}, {density}\n')
+                else:
+                    density = result[idx]
+                    output_file.write(f'{day}, {month}, {year}, {hour}, {minute}, {second}, {microsecond}, {alt}, {input_data[2]}, {input_data[3]}, {input_data[4]}, {input_data[5]}, {input_data[6]}, {density}\n')
     print('Done')
 
 if __name__ == "__main__":
