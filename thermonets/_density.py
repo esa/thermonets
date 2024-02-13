@@ -6,28 +6,40 @@ def rho_approximation(h, params,backend='numpy'):
     """Approximates rho via the exponenial formula
 
     Args:
-        h (`np.array` or `torch.tensor`): altitude
-        params (`np.array` or `torch.tensor`): the [alpha, beta,gamma] parameters
+        h (`np.array` or `torch.tensor`): altitude (of size len(h))
+        params (`np.array` or `torch.tensor`): the [alpha, beta,gamma] parameters or a matrix of them (of size len(h) x [alpha,beta,gamma]_i for i=1..n)
 
     Returns:
         `np.array` or `torch.tensors`: the density
     """        
-    if backend == 'numpy':      
+    if len(params.shape)==1:      
         n = len(params) // 3
         alphas = params[0:n]
         betas = params[n : 2 * n]
         gammas = params[2 * n : 3 * n]
-        retval = np.zeros(h.shape)
-        for alpha, beta, gamma in zip(alphas, betas, gammas):
-            retval += alpha * np.exp(-(h - gamma) * beta)
-    elif backend=='torch':
+        if backend=='numpy':
+            retval = np.zeros(h.shape)
+            for alpha, beta, gamma in zip(alphas, betas, gammas):
+                retval += alpha * np.exp(-(h - gamma) * beta)
+        elif backend=='torch':
+            retval = torch.zeros(h.shape)
+            for alpha, beta, gamma in zip(alphas, betas, gammas):
+                retval += alpha * torch.exp(-(h - gamma) * beta)
+    else:
+        if h.shape[0]!=(params.shape[0]):
+            raise ValueError('h and params must have the same number of rows')
         n = params.shape[1] // 3
         alphas = params[:,0:n]
         betas = params[:,n : 2 * n]
         gammas = params[:,2 * n : 3 * n]
-        retval = torch.zeros_like(h)
-        for i in range(n):
-            retval += alphas[:,i] * torch.exp(-(h - gammas[:,i]) * betas[:,i])
+        if backend=='numpy':    
+            retval = np.zeros(h.shape)
+            for i in range(n):
+                retval += alphas[:,i] * np.exp(-(h - gammas[:,i]) * betas[:,i])
+        elif backend=='torch':
+            retval = torch.zeros_like(h)
+            for i in range(n):
+                retval += alphas[:,i] * torch.exp(-(h - gammas[:,i]) * betas[:,i])
     return retval
 
 class global_fit_udp:
