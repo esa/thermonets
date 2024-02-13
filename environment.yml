@@ -1,6 +1,7 @@
 name: thermonets
 channels:
   - conda-forge
+  - pytorch
 dependencies:
   - c-compiler
   - cxx-compiler
@@ -13,7 +14,8 @@ dependencies:
   - jupyter
   - pykep
   - astropy
+  - pytorch
   - pip:
     - nrlmsise00
     - spaceweather
-    - pyatmos
+    - hwm93
