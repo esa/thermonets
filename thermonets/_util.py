@@ -1,5 +1,6 @@
 import numpy as np
 import heyoka as hy
+import torch
 
 # WGS84 values
 a_earth = 6378137.0
@@ -44,7 +45,7 @@ def cart2geo(
 
 
 def geo2cart(h, lat, lon, e2=1 - b_earth**2 / a_earth**2, R_eq=a_earth, symbolic=False):
-    """COnverts from Geodetic to Cartesian
+    """Converts from Geodetic to Cartesian
 
     Args:
         h (`float` or `hy.expression`): Altitude.
@@ -68,3 +69,15 @@ def geo2cart(h, lat, lon, e2=1 - b_earth**2 / a_earth**2, R_eq=a_earth, symbolic
     z = ((1 - e2) * N + h) * backend.sin(lat)
     return x, y, z
 
+def mean_absolute_percentage_error(y_true, y_pred):
+    """
+    Compute the mean absolute percentage error (MAPE) between true and predicted values.
+    
+    Args:
+        y_true (`torch.tensor`): True values.
+        y_pred (`torch.tensor`): Predicted values.
+        
+    Returns:
+        `torch.tensor`: Mean absolute percentage error.
+    """
+    return torch.mean(torch.abs((y_true - y_pred) / y_true)) * 100
