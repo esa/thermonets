@@ -81,3 +81,31 @@ def mean_absolute_percentage_error(y_true, y_pred):
         `torch.tensor`: Mean absolute percentage error.
     """
     return torch.mean(torch.abs((y_true - y_pred) / y_true)) * 100
+
+def normalize_min_max(data,min_val,max_val):
+    """_summary_
+
+    Args:
+        data (_type_): _description_
+        min_val (_type_): _description_
+        max_val (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    normalized_data = (2 * (data - min_val) / (max_val - min_val)) - 1
+    return normalized_data
+
+def unnormalize_min_max(data,min_val,max_val):
+    """_summary_
+
+    Args:
+        data (_type_): _description_
+        min_val (_type_): _description_
+        max_val (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    unnormalized_data = 1/2 * (data + 1) * (max_val - min_val) + min_val
+    return unnormalized_data
