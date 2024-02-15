@@ -12,7 +12,7 @@ import spaceweather
 from functools import partial
 import hwm93
 
-#for MacOS users:
+#for MacOS users (see https://stackoverflow.com/questions/74217717/what-does-os-environkmp-duplicate-lib-ok-actually-do):
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 # USAGE (example):
 #with wind:
