@@ -18,7 +18,7 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 #with wind:
 ##  python generate_nrlmsise00_db.py --add_wind --num_processes 1 --n_height_points 100 --n_lonlat_points 100
 #without wind:
-##  python generate_nrlmsise00_db.py --num_processes 1 --n_height_points 10 --n_lonlat_points 10
+##  python generate_nrlmsise00_db.py --num_processes 1 --n_height_points 100 --n_lonlat_points 100
 
 def compute_density(inputs, add_wind):
     date,  alt, latitude, longitude, f107A, f107, ap = inputs
