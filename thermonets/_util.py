@@ -82,7 +82,7 @@ def mean_absolute_percentage_error(y_true, y_pred):
     """
     return torch.mean(torch.abs((y_true - y_pred) / y_true)) * 100
 
-def normalize_min_max(data,min_val,max_val):
+def normalize_min_max(data, min_val = None, max_val = None):
     """_summary_
 
     Args:
@@ -93,6 +93,12 @@ def normalize_min_max(data,min_val,max_val):
     Returns:
         _type_: _description_
     """
+    if min_val is None:
+        min_val = data.min()
+    
+    if max_val is None:
+        max_val = data.max()
+    
     normalized_data = (2 * (data - min_val) / (max_val - min_val)) - 1
     return normalized_data
 

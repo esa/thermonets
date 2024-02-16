@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+from ._util import mean_absolute_percentage_error
 
 class ffnn(nn.Module):
     def __init__(
@@ -27,3 +28,13 @@ class ffnn(nn.Module):
         for fc, act in zip(self.fcs, self.acts):
             x = act(fc(x))
         return self.last_activation(self.fc_out(x))
+
+def MSE():
+    return torch.nn.MSELoss()
+
+def MSE_LOG10():
+    return lambda x,y: torch.nn.MSELoss()(torch.log10(x), torch.log10(y))
+
+def MAPE():
+    return lambda x,y: mean_absolute_percentage_error(x,y)
+
