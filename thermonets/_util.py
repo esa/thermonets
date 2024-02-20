@@ -1,6 +1,7 @@
 import numpy as np
 import heyoka as hy
 import torch
+import spaceweather
 
 # WGS84 values
 a_earth = 6378137.0
@@ -115,3 +116,32 @@ def unnormalize_min_max(data,min_val,max_val):
     """
     unnormalized_data = 1/2 * (data + 1) * (max_val - min_val) + min_val
     return unnormalized_data
+
+def get_nrlmsise00_spaceweather_indices(date):
+    """
+    Takes a date, or list of dates, and returns the corresponding ap, f107, f107A (either as single values or arrays).
+
+    Args:
+        - date (`datetime.datetime` or `list` of `datetime.datetime`): date or list of dates at which the space weather is queried
+
+    Returns:
+        - ap (`int` or `np.array`): Ap value(s) corresponding to that date(s)
+        - F10.7 (`int` or `np.array`): F10.7 value(s) corresponding to that date(s)
+        - F10.7A (`int` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
+    """
+    sw_data=spaceweather.sw_daily()
+    ap_data = sw_data[["Apavg"]]
+    f107_data = sw_data[["f107_obs"]]
+    f107a_data = sw_data[["f107_81ctr_obs"]]
+    if isinstance(date,list):
+        #we prepare the input dates:
+        dates=[f'{int(d.year)}-{int(d.month)}-{int(d.day)}' for d in date]
+        #we extract the space weather indices
+        ap=ap_data.loc[dates].values.flatten()
+        f107=f107_data.loc[dates].values.flatten()
+        f107A=f107a_data.loc[dates].values.flatten()
+    else:
+        ap=ap_data.loc[f'{int(date.year)}-{int(date.month)}-{int(date.day)}'].values[0]
+        f107=f107_data.loc[f'{int(date.year)}-{int(date.month)}-{int(date.day)}'].values[0]
+        f107A=f107a_data.loc[f'{int(date.year)}-{int(date.month)}-{int(date.day)}'].values[0]
+    return ap,f107,f107A

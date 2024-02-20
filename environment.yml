@@ -15,6 +15,7 @@ dependencies:
   - pykep
   - astropy
   - pytorch
+  - cartopy
   - pip:
     - nrlmsise00
     - spaceweather
