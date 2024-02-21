@@ -16,7 +16,9 @@ dependencies:
   - astropy
   - pytorch
   - cartopy
+  - pyshtools
   - pip:
     - nrlmsise00
     - spaceweather
     - hwm93
+    - pyatmos

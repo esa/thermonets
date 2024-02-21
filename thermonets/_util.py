@@ -117,6 +117,33 @@ def unnormalize_min_max(data,min_val,max_val):
     unnormalized_data = 1/2 * (data + 1) * (max_val - min_val) + min_val
     return unnormalized_data
 
+def mjd(date):
+    """
+    Converts a datetime object to a modified julian date. 
+
+    Args:
+        - date (`datetime.datetime` or `list`): date(s) as datetime object(s)
+
+    Returns:
+        - mjd (`float` or `list`): modified julian date
+    """
+    if isinstance(date,list):
+        year,month,day,hour,minute,second,microsecond=np.zeros((len(date),)),np.zeros((len(date),)), np.zeros((len(date),)), np.zeros((len(date),)), np.zeros((len(date),)), np.zeros((len(date),)), np.zeros((len(date),))
+        for idx,d in enumerate(date):
+            year[idx], month[idx], day[idx], hour[idx], minute[idx], second[idx], microsecond[idx]= d.year, d.month, d.day, d.hour, d.minute, d.second, d.microsecond  
+    else:
+        year, month, day, hour, minute, second, microsecond= date.year, date.month, date.day, date.hour, date.minute, date.second, date.microsecond
+
+    #first we compute the julian date:
+    jd=(367.0 * year -
+            7.0 * (year + ((month + 9.0) // 12.0)) * 0.25 // 1.0 +
+            275.0 * month // 9.0 +
+            day + 1721013.5)
+    fr=(microsecond/1e6 + second + minute * 60.0 + hour * 3600.0) / 86400.0
+    #and then the modified julian date:
+    mjd = jd+fr-2400000.5
+    return mjd
+
 def get_nrlmsise00_spaceweather_indices(date):
     """
     Takes a date, or list of dates, and returns the corresponding ap, f107, f107A (either as single values or arrays).
@@ -145,3 +172,31 @@ def get_nrlmsise00_spaceweather_indices(date):
         f107=f107_data.loc[f'{int(date.year)}-{int(date.month)}-{int(date.day)}'].values[0]
         f107A=f107a_data.loc[f'{int(date.year)}-{int(date.month)}-{int(date.day)}'].values[0]
     return ap,f107,f107A
+
+def get_jb08_spaceweather_indices(date):
+    """
+    Takes a date, or list of dates, and returns the corresponding ap, f107, f107A (either as single values or arrays).
+
+    Args:
+        - date (`datetime.datetime` or `list` of `datetime.datetime`): date or list of dates at which the space weather is queried
+
+    Returns:
+        - F10.7 (`int` or `np.array`): F10.7 value(s) corresponding to that date(s)
+        - F10.7A (`int` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
+        - S10.7 (`int` or `np.array`): S10.7 value(s) corresponding to that date(s)
+        - S10.7A (`int` or `np.array`): S10.7 81-day average value(s) corresponding to that date(s)
+        - M10.7 (`int` or `np.array`): F10.7 value(s) corresponding to that date(s)
+        - M10.7A (`int` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
+        - Y10.7 (`int` or `np.array`): F10.7 value(s) corresponding to that date(s)
+        - Y10.7A (`int` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
+        - dDst/dT (`int` or `np.array`): Dst index change due to temperature change
+    """
+    from pyatmos.jb2008.spaceweather import get_sw
+    t_mjd = mjd(date)
+    if isinstance(t_mjd,float):
+        return get_sw(swdata,t_mjd)
+    else:
+        f107,f107a,s107,s107a,m107,m107a,y107,y107a,dDstdT=np.zeros((len(t_mjd),)), np.zeros((len(t_mjd),)), np.zeros((len(t_mjd),)), np.zeros((len(t_mjd),)), np.zeros((len(t_mjd),)), np.zeros((len(t_mjd),)), np.zeros((len(t_mjd),)), np.zeros((len(t_mjd),)) ,np.zeros((len(t_mjd),))
+        for i, v in enumerate(t_mjd):
+            f107[i],f107a[i],s107[i],s107a[i],m107[i],m107a[i],y107[i],y107a[i],dDstdT[i]=get_sw(swdata,v)
+    return f107,f107a,s107,s107a,m107,m107a,y107,y107a,dDstdT
