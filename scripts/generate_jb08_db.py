@@ -37,6 +37,13 @@ def valid_date(s):
     except ValueError:
         raise argparse.ArgumentTypeError('Not a valid date:' + s + '. Expecting YYYYMMDDHHMMSS.')
 
+def create_directory_if_not_exists(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        print(f"Directory '{directory}' created successfully")
+    else:
+        print(f"Directory '{directory}' already exists")
+
 def main():
     parser = argparse.ArgumentParser(description='Script for generating JB-08 data (WARNING: much slower than NRLMSISE-00, due to lack of parallelization of JB08 python package):',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -50,7 +57,9 @@ def main():
     swfile = pyatmos.download_sw_jb2008()
     swdata = pyatmos.read_sw_jb2008(swfile)
     # File name to log console output
-    file_name_log = os.path.join('../dbs/jb08_db.log')
+    db_dir='../dbs'
+    create_directory_if_not_exists()
+    file_name_log = os.path.join(db_dir+'/jb08_db.log')
     te = open(file_name_log,'w')  # File where you need to keep the logs
     class Unbuffered:
        def __init__(self, stream):
@@ -101,7 +110,7 @@ def main():
     p = pool.map(compute_density, inputs)
     print('Done ... writing to file')
     # Save inputs and outputs to a file
-    output_file_name = f'../dbs/jb08_db.txt'  
+    output_file_name = db_dir+f'/jb08_db.txt'  
     with open(output_file_name, 'w') as output_file:    
         output_file.write(f'day, month, year, hour, minute, second, microsecond, alt [km], lat [deg], lon [deg], sun ra [deg], sun dec [deg], f107, f107A, s107, s107A, m107, m107A, y107, y107A, dDstdT, density [kg/m^3]\n')
         for input_data, result in zip(inputs, p):
