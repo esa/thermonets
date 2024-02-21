@@ -58,7 +58,7 @@ def main():
     swdata = pyatmos.read_sw_jb2008(swfile)
     # File name to log console output
     db_dir='../dbs'
-    create_directory_if_not_exists()
+    create_directory_if_not_exists(db_dir)
     file_name_log = os.path.join(db_dir+'/jb08_db.log')
     te = open(file_name_log,'w')  # File where you need to keep the logs
     class Unbuffered:

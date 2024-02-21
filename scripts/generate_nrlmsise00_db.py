@@ -60,7 +60,7 @@ def main():
     opt = parser.parse_args()
     # File name to log console output
     db_dir='../dbs'
-    create_dir(db_dir)
+    create_directory_if_not_exists(db_dir)
     file_name_log = os.path.join(db_dir+'/nrlmsise00_db.log')
     te = open(file_name_log,'w')  # File where you need to keep the logs
     class Unbuffered:
