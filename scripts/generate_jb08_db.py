@@ -121,7 +121,8 @@ def main():
             minute = input_data[0].minute
             second = input_data[0].second
             microsecond = input_data[0].microsecond
-            output_file.write(f'{day}, {month}, {year}, {hour}, {minute}, {second}, {microsecond}, {input_data[1]}, {input_data[2]}, {input_data[3]}, {input_data[4]}, {input_data[5]}, {input_data[6]}, {input_data[7]}, {input_data[8]}, {input_data[9]}, {input_data[10]}, {input_data[11]}, {input_data[12]}, {input_data[13]}, {input_data[14]}, {result}\n')
+
+            output_file.write(f'{day}, {month}, {year}, {hour}, {minute}, {second}, {microsecond}, {input_data[1]}, {input_data[2]}, {input_data[3]}, {input_data[5]}, {input_data[6]}, {input_data[7]}, {input_data[8]}, {input_data[9]}, {input_data[10]}, {input_data[11]}, {input_data[12]}, {input_data[13]}, {input_data[14]}, {input_data[15]}, {result}\n')
     print('Done')
 
 if __name__ == "__main__":
