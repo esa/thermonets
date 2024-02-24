@@ -2,7 +2,7 @@ import numpy as np
 import heyoka as hy
 import torch
 import spaceweather
-
+import pyatmos
 # WGS84 values
 a_earth = 6378137.0
 b_earth = 6356752.314245
@@ -119,7 +119,8 @@ def unnormalize_min_max(data,min_val,max_val):
 
 def mjd(date):
     """
-    Converts a datetime object to a modified julian date. 
+    Converts a datetime object to a modified julian date. The julian date conversion is the one valid from 1900 to 2100, and reported in Chapter 3.5 of 
+    Vallado's book Fundamentals of Astrodynamics and Applications.
 
     Args:
         - date (`datetime.datetime` or `list`): date(s) as datetime object(s)
@@ -173,7 +174,7 @@ def get_nrlmsise00_spaceweather_indices(date):
         f107A=f107a_data.loc[f'{int(date.year)}-{int(date.month)}-{int(date.day)}'].values[0]
     return ap,f107,f107A
 
-def get_jb08_spaceweather_indices(date):
+def get_jb08_spaceweather_indices(date,swdata=None):
     """
     Takes a date, or list of dates, and returns the corresponding ap, f107, f107A (either as single values or arrays).
 
@@ -192,6 +193,9 @@ def get_jb08_spaceweather_indices(date):
         - dDst/dT (`int` or `np.array`): Dst index change due to temperature change
     """
     from pyatmos.jb2008.spaceweather import get_sw
+    if swdata is None:
+        swfile = pyatmos.download_sw_jb2008()
+        swdata = pyatmos.read_sw_jb2008(swfile)
     t_mjd = mjd(date)
     if isinstance(t_mjd,float):
         return get_sw(swdata,t_mjd)
