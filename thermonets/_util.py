@@ -70,6 +70,24 @@ def geo2cart(h, lat, lon, e2=1 - b_earth**2 / a_earth**2, R_eq=a_earth, symbolic
     z = ((1 - e2) * N + h) * backend.sin(lat)
     return x, y, z
 
+def earth_rotation_matrix(mjd_date,symbolic=False):
+    """
+    This function returns the Earth rotation angle at a given date.
+
+    Args:
+        - mjd_date (`float`): modified julian date
+    
+    Returns:
+        - `list`: Earth rotation matrix
+    """
+    if symbolic:
+        backend = hy
+    else:
+        backend = np
+    era= 2*np.pi*(0.7790572732640 + 1.00273781191135448*(mjd_date+2400000.5-2451545.0))
+    R=[[backend.cos(era),-backend.sin(era),0],[backend.sin(era),backend.cos(era),0],[0,0,1]]
+    return R
+
 def mean_absolute_percentage_error(y_true, y_pred):
     """
     Compute the mean absolute percentage error (MAPE) between true and predicted values.

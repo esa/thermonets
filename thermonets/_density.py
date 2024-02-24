@@ -1,5 +1,6 @@
 import numpy as np
 import pygmo as pg
+import heyoka as hk
 import torch
 
 def rho_approximation(h, params,backend='numpy'):
@@ -11,7 +12,16 @@ def rho_approximation(h, params,backend='numpy'):
 
     Returns:
         `np.array` or `torch.tensors`: the density
-    """        
+    """
+    if backend == 'heyoka':
+        n = len(params) // 3
+        alphas = params[0:n]
+        betas = params[n : 2 * n]
+        gammas = params[2 * n : 3 * n]
+        retval=0.
+        for alpha, beta, gamma in zip(alphas, betas, gammas):
+            retval += alpha * hk.exp(-(h - gamma) * beta)
+        return retval
     if len(params.shape)==1:      
         n = len(params) // 3
         alphas = params[0:n]
