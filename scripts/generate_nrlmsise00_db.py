@@ -52,7 +52,9 @@ def main():
     parser.add_argument('--add_wind', help='If true, computes the HWM93 zonal and meridional components of the wind, and stored them in the db', action='store_true')
     opt = parser.parse_args()
     # File name to log console output
-    file_name_log = os.path.join('../dbs/nrlmsise00_db.log')
+    db_dir='../dbs'
+    create_dir(db_dir)
+    file_name_log = os.path.join(db_dir+'/nrlmsise00_db.log')
     te = open(file_name_log,'w')  # File where you need to keep the logs
     class Unbuffered:
        def __init__(self, stream):
@@ -106,7 +108,7 @@ def main():
     p = pool.map(partial_compute_density, inputs)
     print('Done ... writing to file')
     # Save inputs and outputs to a file
-    output_file_name = f'../dbs/nrlmsise00_db.txt'  
+    output_file_name = db_dir+f'/nrlmsise00_db.txt'  
     with open(output_file_name, 'w') as output_file:    
         if opt.add_wind:
             output_file.write(f'day, month, year, hour, minute, second, microsecond, alt [km], lat [deg], lon [deg], f107A, f107, ap, wind zonal [m/s], wind meridional [m/s], density [kg/m^3]\n')
