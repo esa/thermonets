@@ -45,10 +45,10 @@ def main():
     parser = argparse.ArgumentParser(description='Differential drag project:',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--n_lonlat_points', help='Number of points on the sphere', type=int, default = 100)
-    parser.add_argument('--min_height', help='Minimum height (km)', type=float, default = 158.48931924611142) # 10**2.2
-    parser.add_argument('--max_height', help='Minimum height (km)', type=float, default = 630.957344480193) # 10**2.8
+    parser.add_argument('--min_height', help='Minimum height (km)', type=float, default = 180.) 
+    parser.add_argument('--max_height', help='Minimum height (km)', type=float, default = 1000.) 
     parser.add_argument('--n_height_points', help='Number of point to sample the altitude range (logarithmically)', type=int, default = 100)
-    parser.add_argument('--num_processes', help='Number of processes to be spawn', type=int, default = 200)
+    parser.add_argument('--num_processes', help='Number of processes to be spawn', type=int, default = 32)
     parser.add_argument('--add_wind', help='If true, computes the HWM93 zonal and meridional components of the wind, and stored them in the db', action='store_true')
     opt = parser.parse_args()
     # File name to log console output
