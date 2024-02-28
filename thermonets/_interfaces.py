@@ -2,20 +2,18 @@ import pickle as pk
 import torch
 import numpy as np
 
-from . import ffnn, normalize_min_max, rho_approximation
+from . import ffnn, ffnn_numpy, normalize_min_max, rho_approximation
 
-# NRLMSISE-00 (loading the ANN and global fit)
+#NRLMSISE-00 (loading the weights and biases of the FFNN and global fit):
 with open("../global_fits/global_fit_nrlmsise00_180.0-1000.0-4.txt", "rb") as f:
     best_global_fit_nrlmsise00 = pk.load(f)
-model_nrlmsise00 = ffnn(
-    input_dim=10,
-    hidden_layer_dims=[32, 32],
-    output_dim=12,
-    mid_activation=torch.nn.Tanh(),
-    last_activation=torch.nn.Tanh(),
-)
-_model_nrlmsise00_path = "../models/nrlmsise00_model_10_32_32_2.60.pyt"
-model_nrlmsise00.load_state_dict(torch.load(_model_nrlmsise00_path))
+_model_nrlmsise00_path='../models/nn_parameters_nrlmsise00_model_10_32_32_2.60.pk'
+with open(_model_nrlmsise00_path,'rb') as f:
+    (W,b)=pk.load(f)
+model_nrlmsise00 = ffnn_numpy(weights=W,
+                              biases=b,
+                              mid_activation=np.tanh,
+                              last_activation=np.tanh)
 
 # JB08 (loading the ANN and global fit)
 with open("../global_fits/global_fit_jb08_180.0-1000.0-4.txt", "rb") as f:
@@ -32,7 +30,7 @@ model_jb08.load_state_dict(torch.load(_model_jb08_path))
 
 
 # NRLMSISE-00 (ANN interface)
-def nrlmsise00_tn(hs, lons, lats, ap, f107, f107a, doy, sid):
+def nrlmsise00_tn(hs, lons, lats, f107a, f107, ap, doy, sid):
     # We prepare the inputs for the inference
     # lons_, hs_, lats_= np.meshgrid(lons, hs, lats)
     hs_, lons_, lats_ = np.meshgrid(hs, lons, lats, indexing="ij")
@@ -56,15 +54,10 @@ def nrlmsise00_tn(hs, lons, lats, ap, f107, f107a, doy, sid):
     nn_in[:, 7] = normalize_min_max(f107, 60.0, 266.0)
     nn_in[:, 8] = normalize_min_max(f107a, 60.0, 170.0)
     nn_in[:, 9] = normalize_min_max(ap, 0.0, 110.0)
-    nn_in_torch = torch.tensor(nn_in, dtype=torch.float32)
 
     # Compute the parameters of the exponentials as params_i = params_i0 (1 + NNout_i)
-    delta_params = model_nrlmsise00(nn_in_torch)
-    params = torch.tensor(best_global_fit_nrlmsise00, dtype=torch.float32) * (
-        1 + delta_params
-    )
+    delta_params = model_nrlmsise00(nn_in)
+    params = best_global_fit_nrlmsise00 * (1 + delta_params)
     # Compute the inference of the model over the entire dataset
-    predicted = rho_approximation(
-        torch.tensor(hs_, dtype=torch.float32), params, backend="torch"
-    )
+    predicted = rho_approximation(hs_, params, backend="numpy")
     return predicted.reshape(shape)
