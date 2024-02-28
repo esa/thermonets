@@ -4,5 +4,5 @@ from ._util import cart2geo, geo2cart, normalize_min_max, unnormalize_min_max, m
 from ._util import get_nrlmsise00_spaceweather_indices, get_jb08_spaceweather_indices, earth_rotation_matrix, mjd, get_nrlmsise00_attributes, get_jb08_attributes
 from ._density import rho_approximation, global_fit_udp
 from ._nn import ffnn, ffnn_numpy, MSE, MSE_LOG10, MAPE
-from ._interfaces import nrlmsise00_tn, best_global_fit_nrlmsise00, best_global_fit_jb08
+from ._interfaces import nrlmsise00_tn, jb08_tn, best_global_fit_nrlmsise00, best_global_fit_jb08
 

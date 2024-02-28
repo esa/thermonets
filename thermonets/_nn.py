@@ -1,7 +1,6 @@
 import torch
 from torch import nn
 import numpy as np
-import pickle
 from ._util import mean_absolute_percentage_error
 
 class ffnn(nn.Module):
