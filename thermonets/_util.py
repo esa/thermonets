@@ -172,8 +172,8 @@ def get_nrlmsise00_spaceweather_indices(date):
 
     Returns:
         - ap (`int` or `np.array`): Ap value(s) corresponding to that date(s)
-        - F10.7 (`int` or `np.array`): F10.7 value(s) corresponding to that date(s)
-        - F10.7A (`int` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
+        - F10.7 (`float` or `np.array`): F10.7 value(s) corresponding to that date(s)
+        - F10.7A (`float` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
     """
     sw_data=spaceweather.sw_daily()
     ap_data = sw_data[["Apavg"]]
@@ -192,6 +192,12 @@ def get_nrlmsise00_spaceweather_indices(date):
         f107A=f107a_data.loc[f'{int(date.year)}-{int(date.month)}-{int(date.day)}'].values[0]
     return ap,f107,f107A
 
+def get_nrlmsise00_attributes(date):
+    ap,f107,f107A = get_nrlmsise00_spaceweather_indices(date)
+    doy = date.timetuple().tm_yday
+    sid = date.hour*3600+date.minute*60+date.second+date.microsecond/1e6
+    return ap,f107,f107A, doy,sid
+
 def get_jb08_spaceweather_indices(date,swdata=None):
     """
     Takes a date, or list of dates, and returns the corresponding ap, f107, f107A (either as single values or arrays).
@@ -200,15 +206,15 @@ def get_jb08_spaceweather_indices(date,swdata=None):
         - date (`datetime.datetime` or `list` of `datetime.datetime`): date or list of dates at which the space weather is queried
 
     Returns:
-        - F10.7 (`int` or `np.array`): F10.7 value(s) corresponding to that date(s)
-        - F10.7A (`int` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
-        - S10.7 (`int` or `np.array`): S10.7 value(s) corresponding to that date(s)
-        - S10.7A (`int` or `np.array`): S10.7 81-day average value(s) corresponding to that date(s)
-        - M10.7 (`int` or `np.array`): F10.7 value(s) corresponding to that date(s)
-        - M10.7A (`int` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
-        - Y10.7 (`int` or `np.array`): F10.7 value(s) corresponding to that date(s)
-        - Y10.7A (`int` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
-        - dDst/dT (`int` or `np.array`): Dst index change due to temperature change
+        - F10.7 (`float` or `np.array`): F10.7 value(s) corresponding to that date(s)
+        - F10.7A (`float` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
+        - S10.7 (`float` or `np.array`): S10.7 value(s) corresponding to that date(s)
+        - S10.7A (`float` or `np.array`): S10.7 81-day average value(s) corresponding to that date(s)
+        - M10.7 (`float` or `np.array`): F10.7 value(s) corresponding to that date(s)
+        - M10.7A (`float` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
+        - Y10.7 (`float` or `np.array`): F10.7 value(s) corresponding to that date(s)
+        - Y10.7A (`float` or `np.array`): F10.7 81-day average value(s) corresponding to that date(s)
+        - dDst/dT (`float` or `np.array`): Dst index change due to temperature change
     """
     from pyatmos.jb2008.spaceweather import get_sw
     if swdata is None:
@@ -222,3 +228,9 @@ def get_jb08_spaceweather_indices(date,swdata=None):
         for i, v in enumerate(t_mjd):
             f107[i],f107a[i],s107[i],s107a[i],m107[i],m107a[i],y107[i],y107a[i],dDstdT[i]=get_sw(swdata,v)
     return f107,f107a,s107,s107a,m107,m107a,y107,y107a,dDstdT
+
+def get_jb08_attributes(date):
+    f107,f107a,s107,s107a,m107,m107a,y107,y107a,dDstdT = get_jb08_spaceweather_indices(date)
+    doy = date.timetuple().tm_yday
+    sid = date.hour*3600+date.minute*60+date.second+date.microsecond/1e6
+    return f107,f107a,s107,s107a,m107,m107a,y107,y107a,dDstdT,doy,sid

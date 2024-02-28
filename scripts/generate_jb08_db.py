@@ -41,10 +41,10 @@ def main():
     parser = argparse.ArgumentParser(description='Script for generating JB-08 data (WARNING: much slower than NRLMSISE-00, due to lack of parallelization of JB08 python package):',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--n_lonlat_points', help='Number of points on the sphere', type=int, default = 100)
-    parser.add_argument('--min_height', help='Minimum height (km)', type=float, default = 158.48931924611142) # 10**2.2
-    parser.add_argument('--max_height', help='Minimum height (km)', type=float, default = 630.957344480193) # 10**2.8
+    parser.add_argument('--min_height', help='Minimum height (km)', type=float,  default = 180.) 
+    parser.add_argument('--max_height', help='Minimum height (km)', type=float, default = 1000.)
     parser.add_argument('--n_height_points', help='Number of point to sample the altitude range (logarithmically)', type=int, default = 100)
-    parser.add_argument('--num_processes', help='Number of processes to be spawn', type=int, default = 200)
+    parser.add_argument('--num_processes', help='Number of processes to be spawn', type=int, default = 1)
     opt = parser.parse_args()
     #we download & load the space weather data needed for JB-08 (from Celestrack) only once here:
     swfile = pyatmos.download_sw_jb2008()
