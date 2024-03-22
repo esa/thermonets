@@ -7,7 +7,7 @@ from . import ffnn, ffnn_numpy, normalize_min_max, rho_approximation
 #NRLMSISE-00 (loading the weights and biases of the FFNN and global fit):
 with open("../global_fits/global_fit_nrlmsise00_180.0-1000.0-4.txt", "rb") as f:
     best_global_fit_nrlmsise00 = pk.load(f)
-_model_nrlmsise00_path='../models/nn_parameters_nrlmsise00_model_10_32_32_2.60.pk'
+_model_nrlmsise00_path='../models/nn_parameters_nrlmsise00_model_10_32_32_2.17.pk'
 with open(_model_nrlmsise00_path,'rb') as f:
     (weights_nrlmsise00,biases_nrlmsise00)=pk.load(f)
 model_nrlmsise00 = ffnn_numpy(weights=weights_nrlmsise00,
@@ -54,6 +54,8 @@ def nrlmsise00_tn(hs, lons, lats, f107a, f107, ap, doy, sid):
 
     # Compute the parameters of the exponentials as params_i = params_i0 (1 + NNout_i)
     delta_params = model_nrlmsise00(nn_in)
+    # we extend the gamma parameter as we did in training (otherwise they were saturating)
+    delta_params[:,8:]=delta_params[:,8:]*5.
     params = best_global_fit_nrlmsise00 * (1 + delta_params)
     # Compute the inference of the model over the entire dataset
     predicted = rho_approximation(hs_, params, backend="numpy")
