@@ -184,8 +184,6 @@ python generate_jb08_db.py --n_lonlat_points 100 --min_height 180 --max_height 1
 ```
 where `min_height`, `max_height` are in km. This might take several minutes for many points (e.g. the above is for several million points).. if you want something faster, you can reduce either the `n_lonlat_points` or `n_height_points` points requested.
 
-### Orbit propagation
-
 ## Tutorials
 
 Check out our `notebooks` folder for plenty of tutorials! In particular:
