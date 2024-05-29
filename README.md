@@ -161,7 +161,7 @@ The above produces the following density profiles as a function of the altitude:
 
 The pre-trained models display very low errors w.r.t. their ground truth (i.e., NRLMSISE-00 and JB-08): usually in the order of between 1 and 3% mean absolute percentage error. This is a table extracted from our publication:
 <p align="center">
-  <img width="550" src="https://github.com/esa/thermonets/assets/33602846/bfaa40c6-8b05-4b0b-b081-f6ec4673f2aa">
+  <img width="750" src="https://github.com/esa/thermonets/assets/33602846/bfaa40c6-8b05-4b0b-b081-f6ec4673f2aa">
 </p>
 
 Check out our publication for a more thorough discussion! 
