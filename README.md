@@ -174,4 +174,12 @@ python generate_jb08_db.py --n_lonlat_points 100 --min_height 180 --max_height 1
 ```
 where `min_height`, `max_height` are in km. This might take several minutes for many points (e.g. the above is for several million points).. if you want something faster, you can reduce either the `n_lonlat_points` or `n_height_points` points requested.
 
+## Tutorials
+
+Check out our `notebooks` folder for plenty of tutorials! In particular:
+
+* `notebooks/nrlmsise00_train.ipynb` and `notebooks/jb08_train.ipynb` for how to train thermoNET on empirical models
+* `notebooks/nrlmsise00_analysis.ipynb` and `notebooks/jb08_analysis.ipynb` for how to perform inference, and compare the models w.r.t. their ground truth, with different metrics & cool plots 
+* `notebooks/orbit_propagation_with_thermoNET.ipynb` for how they can be integrated within an orbit propagator, written with a Taylor-based integration scheme (this notebooks requires [`heyoka.py`](https://bluescarni.github.io/heyoka.py/))
+* `notebooks/neural_ODEs.ipynb` for an example on how to adjust thermoNETs parameters for matching a downstream task (in that case, for better matching some observed trajectory data) using the NeuralODE approach. In that notebook, we use a thermoNET trained on NRLMSISE-00 and ask adjust its weights and biases so that it then matches the trajectory generated using JB-08 empirical model (considered as the target). The latter could be produced with any observed or simulated ground truth data, with the same setup.  
 
