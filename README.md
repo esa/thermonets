@@ -1,12 +1,37 @@
 # thermoNETS
-This repository contains the code developed during the European Spage Agency's ACT study:
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/esa/thermonets">
+    <img src="https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60" alt="Logo" width="280">
+  </a>
+  <p align="center">
+    Thermosphere neural implicit representation
+    <br />
+    <a href="https://github.com/esa/thermonets/issues/new/choose">Report bug</a>
+    ·
+    <a href="https://github.com/esa/thermonets/issues/new/choose">Request feature</a>
+  </p>
+</p>
 
-```Izzo,D. and Acciarini, G. and Biscani, F. "NeuralODEs for VLEO simulations: Introducing thermoNET for Thermosphere Modeling" - 29th International Symposium on Space Flight Dynamics (ISSFD), 22- 26 April 2024, Darmstadt, Germany. ```
+This repository introduces a novel neural architecture termed thermoNET, designed to represent thermospheric density in satellite orbital propagation, using a reduced amount of differentiable computations.
 
-# A sneak peak
-Here is a glimpse of what our neural implicit representation of the thermospheric density looks like, compared to the ground truth .... pretty impressive right?
+Due to the appearance of a neural network on the right-hand side of the equations of motion, the resulting satellite dynamics is governed by a NeuralODE, a neural Ordinary Differential Equation, characterized by its fully differentiable nature, allowing the derivation of variational equations (hence of the state transition matrix) and facilitating its use in connection to advanced numerical techniques such as Taylor-based numerical propagation and differential algebraic techniques. Efficient training of the network parameters occurs through two distinct approaches.
 
-https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60
+This repository contains the code to train, analyze and use thermoNETs for downstream tasks: including orbit propagation and neuralODE training. This was developed during the European Spage Agency's ACT study:
+
+```
+@article{izzo1advanced,
+  title={1Advanced Concepts Team, European Space Research and Technology Centre (ESTEC), Noordwijk, The Netherlands. 2Surrey Space Centre, University of Surrey, Guildford, United Kingdom 3ESA/ESOC, Darmstadt, Germany},
+  author={Izzo, Dario and Acciarini, Giacomo and Biscani, Francesco}
+}
+@inproceedings{thermonets,
+  title = {NeuralODEs for VLEO simulations: Introducing thermoNET for Thermosphere Modeling},
+  author = {Izzo, Dario and Acciarini, Giacomo and Biscani, Francesco},
+  booktitle = {29th International Symposium on Space Flight Dynamics},
+  year = {2024}
+}
+```
 
 # Getting Started
 
