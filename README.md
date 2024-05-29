@@ -1,5 +1,5 @@
 # thermoNETS
-<div align="center">
+<p align="center">
 https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60
 </p>
   
