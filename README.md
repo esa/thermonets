@@ -155,7 +155,7 @@ density_thermonet_jb08=tn.jb08_tn(hs=hs,
 > Alternatively, floats can also be passed, and then the corresponding dimension will be equal to 1. The above shape for the thermoNET output for instance, is 300x1x1
 
 The above produces the following density profiles as a function of the altitude:
-<img width="783" src="https://github.com/esa/thermonets/assets/33602846/95c1233b-5bf9-40ba-a008-4738ed5bace2">
+<img width="783" src="https://github.com/esa/thermonets/assets/33602846/95c1233b-5bf9-40ba-a008-4738ed5bace2" width=180>
 
 
 ### Generate a Database
