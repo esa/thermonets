@@ -21,10 +21,6 @@ Due to the appearance of a neural network on the right-hand side of the equation
 This repository contains the code to train, analyze and use thermoNETs for downstream tasks: including orbit propagation and neuralODE training. This was developed during the European Spage Agency's ACT study:
 
 ```
-@article{izzo1advanced,
-  title={1Advanced Concepts Team, European Space Research and Technology Centre (ESTEC), Noordwijk, The Netherlands. 2Surrey Space Centre, University of Surrey, Guildford, United Kingdom 3ESA/ESOC, Darmstadt, Germany},
-  author={Izzo, Dario and Acciarini, Giacomo and Biscani, Francesco}
-}
 @inproceedings{thermonets,
   title = {NeuralODEs for VLEO simulations: Introducing thermoNET for Thermosphere Modeling},
   author = {Izzo, Dario and Acciarini, Giacomo and Biscani, Francesco},
