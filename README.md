@@ -1,4 +1,4 @@
-# thermoNETS
+# thermoNETs
 
 <!-- PROJECT LOGO -->
 <br />
