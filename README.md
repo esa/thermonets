@@ -88,6 +88,7 @@ whereas JB-08 inputs needed are:
 * F10.7 and F10.7a indexes
 * S10.7 and S10.7a indexes
 * M10.7 and M10.7a indexes
+* Y10.7 and Y10.7a indexes
 * dDst/dT index
 * seconds in day
 * day of year
