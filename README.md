@@ -153,6 +153,7 @@ density_thermonet_jb08=tn.jb08_tn(hs=hs,
 ```
 > NOTE that the output of the thermonet will be of shape NxMxL, where N is the length of the altitude vector, M is the length of the longitude vector, and L is the length of the latitude vector.
 > Alternatively, floats can also be passed, and then the corresponding dimension will be equal to 1. The above shape for the thermoNET output for instance, is 300x1x1
+
 The above produces the following density profiles as a function of the altitude:
 ![altitude_example_thermonet](https://github.com/esa/thermonets/assets/33602846/e61605e5-18ea-477e-9c15-11b507e698c1)
 
