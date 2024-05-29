@@ -4,7 +4,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/esa/thermonets">
-    <img src="figures/thermonets.png" alt="Logo" width="280">
+    <img src="figures/thermonets.png" alt="Logo" width="580">
   </a>
   <p align="center">
     Thermosphere neural implicit representation
