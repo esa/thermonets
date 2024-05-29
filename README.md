@@ -156,7 +156,7 @@ density_thermonet_jb08=tn.jb08_tn(hs=hs,
 
 The above produces the following density profiles as a function of the altitude:
 <p align="center">
-  <img width="550" src="https://github.com/esa/thermonets/assets/33602846/95c1233b-5bf9-40ba-a008-4738ed5bace2">
+  <img width="550" src="https://github.com/esa/thermonets/assets/33602846/1260c748-cfc8-4012-8099-486eb267f57b">
 </p>
 
 ### Generate a Database
