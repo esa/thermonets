@@ -21,8 +21,9 @@ This repository introduces a novel neural architecture termed thermoNET, designe
 
 Due to the appearance of a neural network on the right-hand side of the equations of motion, the resulting satellite dynamics is governed by a NeuralODE, a neural Ordinary Differential Equation, characterized by its fully differentiable nature, allowing the derivation of variational equations (hence of the state transition matrix) and facilitating its use in connection to advanced numerical techniques such as Taylor-based numerical propagation and differential algebraic techniques. Efficient training of the network parameters occurs through two distinct approaches.
 
-This repository contains the code to train, analyze, and use thermoNETs for downstream tasks: including orbit propagation and neuralODE training. This was developed during the European Spage Agency's ACT study:
-
+This repository contains the code to train, analyze, and use thermoNETs for downstream tasks: including orbit propagation and neuralODE training. 
+If you are using thermoNETs as part of your research, teaching, or other activities, we would be grateful if you could cite our work and/or star the repository. 
+For citation purposes, you can use the following BibTex entry:
 ```bibtex
 @inproceedings{thermonets,
   title = {NeuralODEs for VLEO simulations: Introducing thermoNET for Thermosphere Modeling},
@@ -31,6 +32,8 @@ This repository contains the code to train, analyze, and use thermoNETs for down
   year = {2024}
 }
 ```
+
+
 ## Goals
 https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60
 
