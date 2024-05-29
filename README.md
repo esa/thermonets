@@ -159,6 +159,13 @@ The above produces the following density profiles as a function of the altitude:
   <img width="550" src="https://github.com/esa/thermonets/assets/33602846/1260c748-cfc8-4012-8099-486eb267f57b">
 </p>
 
+The pre-trained models display very low errors w.r.t. their ground truth (i.e., NRLMSISE-00 and JB-08): usually in the order of between 1 and 3% mean absolute percentage error. This is a table extracted from our publication:
+<p align="center">
+  <img width="350" src="https://github.com/esa/thermonets/assets/33602846/bfaa40c6-8b05-4b0b-b081-f6ec4673f2aa">
+</p>
+
+Check out our publication for a more thorough discussion! 
+
 ### Generate a Database
 This repository open-sources two pre-trained thermoNET (one on the [NRLMSISE-00](https://pypi.org/project/nrlmsise00/) empirical model, and one on [JB-08](https://github.com/lcx366/ATMOS/tree/master)). In order to train a thermoNET from scratch for these two models, you can follow the tutorials under `notebooks/nrlmsise00_train.ipynb` and `noteboooks/jb08_train.ipynb`. However, it is essential to first generate a database of points to train on. This can be done by doing for NRLMSISE-00:
 
@@ -174,6 +181,8 @@ python generate_jb08_db.py --n_lonlat_points 100 --min_height 180 --max_height 1
 ```
 where `min_height`, `max_height` are in km. This might take several minutes for many points (e.g. the above is for several million points).. if you want something faster, you can reduce either the `n_lonlat_points` or `n_height_points` points requested.
 
+### Orbit propagation
+
 ## Tutorials
 
 Check out our `notebooks` folder for plenty of tutorials! In particular:
@@ -181,5 +190,9 @@ Check out our `notebooks` folder for plenty of tutorials! In particular:
 * `notebooks/nrlmsise00_train.ipynb` and `notebooks/jb08_train.ipynb` for how to train thermoNET on empirical models
 * `notebooks/nrlmsise00_analysis.ipynb` and `notebooks/jb08_analysis.ipynb` for how to perform inference, and compare the models w.r.t. their ground truth, with different metrics & cool plots 
 * `notebooks/orbit_propagation_with_thermoNET.ipynb` for how they can be integrated within an orbit propagator, written with a Taylor-based integration scheme (this notebooks requires [`heyoka.py`](https://bluescarni.github.io/heyoka.py/))
-* `notebooks/neural_ODEs.ipynb` for an example on how to adjust thermoNETs parameters for matching a downstream task (in that case, for better matching some observed trajectory data) using the NeuralODE approach. In that notebook, we use a thermoNET trained on NRLMSISE-00 and ask adjust its weights and biases so that it then matches the trajectory generated using JB-08 empirical model (considered as the target). The latter could be produced with any observed or simulated ground truth data, with the same setup.  
+* `notebooks/neural_ODEs.ipynb` for an example of how to adjust thermoNETs parameters for matching a downstream task (in that case, for better matching some observed trajectory data) using the NeuralODE approach. In that notebook, we use a thermoNET trained on NRLMSISE-00 and ask to adjust its weights and biases so that it then matches the trajectory generated using JB-08 empirical model (considered as the target). The latter could be produced with any observed or simulated ground truth data, with the same setup.  
 
+## Authors
+* Dario Izzo (European Space Agency)
+* Giacomo Acciarini (European Space Agency & Surrey Space Center)
+* Francesco Biscani (European Space Agency)
