@@ -155,8 +155,9 @@ density_thermonet_jb08=tn.jb08_tn(hs=hs,
 > Alternatively, floats can also be passed, and then the corresponding dimension will be equal to 1. The above shape for the thermoNET output for instance, is 300x1x1
 
 The above produces the following density profiles as a function of the altitude:
-<img width="300" src="https://github.com/esa/thermonets/assets/33602846/95c1233b-5bf9-40ba-a008-4738ed5bace2">
-
+<p align="center">
+  <img width="550" src="https://github.com/esa/thermonets/assets/33602846/95c1233b-5bf9-40ba-a008-4738ed5bace2">
+</p>
 
 ### Generate a Database
 This repository open-sources two pre-trained thermoNET (one on the [NRLMSISE-00](https://pypi.org/project/nrlmsise00/) empirical model, and one on [JB-08](https://github.com/lcx366/ATMOS/tree/master)). In order to train a thermoNET from scratch for these two models, you can follow the tutorials under `notebooks/nrlmsise00_train.ipynb` and `noteboooks/jb08_train.ipynb`. However, it is essential to first generate a database of points to train on. This can be done by doing for NRLMSISE-00:
