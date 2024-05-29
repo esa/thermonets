@@ -41,7 +41,7 @@ https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26
 * neural ODE training to adjust trained architectures to match observed and/or simulated satellite data
 * neural representation of NRLMSISE-00 and JB-08 (pre-trained and ready for use)
 * tutorial on the use of thermoNET for pure inference (i.e., as a thermospheric density model), as well as during orbit propagation, and for neural ODE fix (see `notebooks` folder)
-https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60
+
 
 ## Installation
 
