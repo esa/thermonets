@@ -39,7 +39,7 @@ https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26
 
 * represent thermospheric density empirical models via a lightweight neural network (only a few thousand parameters)
 * neural ODE training to adjust trained architectures to match observed and/or simulated satellite data
-* neural representation of NRLMSISE-00 and JB-08 (pre-trained) and available
+* neural representation of NRLMSISE-00 and JB-08 (pre-trained and ready for use)
 * tutorial on the use of thermoNET for pure inference (i.e., as a thermospheric density model), during orbit propagation, for neural ODE fix (see `notebooks` folder)
 https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60
 
