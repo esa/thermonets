@@ -1,10 +1,10 @@
 # thermoNETS
-https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60
-  
+
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/esa/thermonets">
+    <img src="figures/thermonets.png" alt="Logo" width="280">
   </a>
   <p align="center">
     Thermosphere neural implicit representation
@@ -14,6 +14,8 @@ https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26
     <a href="https://github.com/esa/thermonets/issues/new/choose">Request feature</a>
   </p>
 </p>
+
+## Info
 
 This repository introduces a novel neural architecture termed thermoNET, designed to represent thermospheric density in satellite orbital propagation, using a reduced amount of differentiable computations.
 
@@ -29,7 +31,18 @@ This repository contains the code to train, analyze and use thermoNETs for downs
   year = {2024}
 }
 ```
+https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60
 
-# Getting Started
+## Goals
+* represent thermospheric density empirical models via a lightweight neural network (only a few thousands parameters)
+* neural ODE training to adjust trained architectures to match observed and/or simulated satellite data
+* neural representation of NRLMSISE-00 and JB-08 (pre-trained) and available
+* tutorial on the use of thermoNET for pure inference (i.e., as a thermospheric density model), during orbit propagation, for neural ODE fix (see `notebooks` folder)
+https://github.com/esa/thermonets/assets/3327087/09267ff1-4939-49a6-b8fd-be0cb26f2a60
+
+## Getting Started
+
+
+
 
 
