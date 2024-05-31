@@ -22,7 +22,7 @@ This repository introduces a novel neural architecture termed thermoNET, designe
 Due to the appearance of a neural network on the right-hand side of the equations of motion, the resulting satellite dynamics is governed by a NeuralODE, a neural Ordinary Differential Equation, characterized by its fully differentiable nature, allowing the derivation of variational equations (hence of the state transition matrix) and facilitating its use in connection to advanced numerical techniques such as Taylor-based numerical propagation and differential algebraic techniques. Efficient training of the network parameters occurs through two distinct approaches.
 
 In this repository, you will find the code to train, analyze, and use thermoNETs for downstream tasks: including orbit propagation and neuralODE training. 
-If you are using thermoNETs as part of your research, teaching, or other activities, we would be grateful if you could cite our work and/or star the repository. 
+If you are using thermoNETs as part of your research, teaching, or other activities, we would be grateful if you could cite [our work](https://arxiv.org/abs/2405.19384) and/or star the repository. 
 For citation purposes, you can use the following BibTex entry:
 ```bibtex
 @inproceedings{thermonets,
