@@ -29,7 +29,8 @@ For citation purposes, you can use the following BibTex entry:
   title = {NeuralODEs for VLEO simulations: Introducing thermoNET for Thermosphere Modeling},
   author = {Izzo, Dario and Acciarini, Giacomo and Biscani, Francesco},
   booktitle = {29th International Symposium on Space Flight Dynamics},
-  year = {2024}
+  year = {2024},
+  url = {https://arxiv.org/abs/2405.19384}
 }
 ```
 
